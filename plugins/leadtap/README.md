@@ -40,4 +40,9 @@ The skills only use the server's tools, so they work with any account. In claude
 claude plugin update leadtap@leadtap
 ```
 
-Support: the contact page at https://leadtap.me, where the MCP server (tools, authentication, what it never does) is documented.
+## Documentation and support
+
+- The MCP server, its tools, authentication and what it never does: [docs.leadtap.me/mcp](https://docs.leadtap.me/mcp/).
+- These skills and the plugin: [docs.leadtap.me/mcp/claude-code-plugin](https://docs.leadtap.me/mcp/claude-code-plugin/).
+- Webhooks, what the receiver gets and how to verify the signature: [docs.leadtap.me/concepts/webhooks](https://docs.leadtap.me/concepts/webhooks/).
+- Support: [the contact page](https://www.leadtap.me/en/contact).

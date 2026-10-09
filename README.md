@@ -41,4 +41,10 @@ Update later with `claude plugin update leadtap@leadtap`.
 - `plugins/leadtap/.mcp.json`: the LeadTap.me MCP server.
 - `plugins/leadtap/skills/*`: the four skills, plain Markdown.
 
-Plans, prices and the full documentation of the MCP server (tools, authentication, what it never does) are at [leadtap.me](https://leadtap.me). Support: the contact page there.
+## Documentation and support
+
+- The MCP server, its tools, authentication and what it never does: [docs.leadtap.me/mcp](https://docs.leadtap.me/mcp/).
+- These skills and the plugin: [docs.leadtap.me/mcp/claude-code-plugin](https://docs.leadtap.me/mcp/claude-code-plugin/).
+- Webhooks, what the receiver gets and how to verify the signature: [docs.leadtap.me/concepts/webhooks](https://docs.leadtap.me/concepts/webhooks/).
+- Plans and prices: [leadtap.me/en/pricing](https://www.leadtap.me/en/pricing).
+- Support: [the contact page](https://www.leadtap.me/en/contact).
