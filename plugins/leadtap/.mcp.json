@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "leadtap": {
+      "type": "http",
+      "url": "https://app.leadtap.me/api/mcp"
+    }
+  }
+}

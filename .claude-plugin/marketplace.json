@@ -1,0 +1,14 @@
+{
+  "name": "leadtap",
+  "owner": {
+    "name": "LeadTap.me"
+  },
+  "description": "Claude Code plugins for LeadTap.me: lead pages, CRM, links and Smart Objects through the LeadTap.me MCP server.",
+  "plugins": [
+    {
+      "name": "leadtap",
+      "source": "./plugins/leadtap",
+      "description": "Connects Claude to your LeadTap.me account and teaches it to build lead pages that work, set up smart routing, send leads to your CRM or AI workflows by webhook, and review your leads."
+    }
+  ]
+}

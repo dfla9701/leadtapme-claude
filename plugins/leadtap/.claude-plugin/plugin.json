@@ -1,0 +1,20 @@
+{
+  "name": "leadtap",
+  "version": "0.2.0",
+  "description": "LeadTap.me for Claude Code: builds lead pages that work, routes NFC and QR Smart Objects by schedule, sends your leads to your CRM, a workflow or an AI agent by webhook, and reviews your leads, through the LeadTap.me MCP server.",
+  "author": {
+    "name": "LeadTap.me",
+    "url": "https://leadtap.me"
+  },
+  "homepage": "https://app.leadtap.me",
+  "keywords": [
+    "leadtap",
+    "lead pages",
+    "forms",
+    "crm",
+    "nfc",
+    "qr",
+    "smart objects",
+    "webhooks"
+  ]
+}
