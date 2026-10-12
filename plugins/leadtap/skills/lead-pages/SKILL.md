@@ -1,6 +1,6 @@
 ---
 name: lead-pages
-description: Builds, edits and publishes LeadTap.me pages through the LeadTap.me MCP tools so they come out right the first time. A page can be a lead capture form, a digital contact card, a business presentation (about us, products & services, testimonials), a menu, a review flow, a qualifier or an RSVP. Use when the user asks to create, change, review or publish any LeadTap.me page, form, survey, card, menu or landing page, or when a LeadTap.me draft comes back with issues.
+description: Builds, edits and publishes LeadTap.me pages through the LeadTap.me MCP tools so they come out right the first time. A page can be a lead capture form, a digital contact card, a business presentation (about us, products & services, testimonials), a menu, a review flow, a qualifier or an RSVP. Use when the user asks to create, change, review or publish any LeadTap.me page, form, survey, card, menu or landing page, to put their own photos or a reward file on a page, or when a LeadTap.me draft comes back with issues.
 ---
 
 # LeadTap.me lead pages
@@ -14,12 +14,12 @@ Tool names below are the MCP server's (`create_form`, `save_form_draft`…). Ins
 ## The flow, in order
 
 1. **`get_account` first.** Plan, features (scoring, conditional logic, partial submit, file reward are paid), lead-page quota, time zone.
-2. **Ask what is missing before building.** What the page must do, if the request does not say (present, capture, qualify, give something, send somewhere). The language the visitors read (the user's language is not always their customers'). What the business does with the answers, if it asks any. Where the page opens (an object in the venue, a QR on a flyer, a link in a bio). For a contact card, the real contact data; for a redirect, the real URL. One question round, not an interview.
+2. **Ask what is missing before building.** What the page must do, if the request does not say (present, capture, qualify, give something, send somewhere). The language the visitors read (the user's language is not always their customers'). What the business does with the answers, if it asks any. Where the page opens (an object in the venue, a QR on a flyer, a link in a bio). For a contact card, the real contact data; for a redirect, the real URL. If the page shows the business (products, dishes, projects, the team, a contact card): do they have real photos, or should stock placeholders go in for now? One question round, not an interview.
 3. **`create_form`** with a private name. It is born private and unpublished, with the account's brand theme and a cover.
 4. **`get_form` on the new id and start from its `draftConfig`** (or `publishedConfig` when there is no draft). That is where the brand theme lives; building from the schema's starter would throw it away. Read `get_form_config_schema` once for the exact keys.
 5. **Edit that config and send it whole to `save_form_draft`.** It replaces the draft. If it answers `INVALID_DRAFT`, nothing was saved: fix every issue it lists and send the whole config again. `warnings` are saved but worth a look.
 6. **Show the user what they got**, step by step, in their language, and say which paid features it uses.
-7. **`publish_form` only when they say so.** It is public, it uses live-page quota, it may start the 14-day Plus trial, and it tells you which paid features the plan lacks.
+7. **`publish_form` only when they say so.** It is public, it uses live-page quota, it may start the 14-day Plus trial, and it tells you which paid features the plan lacks. A page with a file reward cannot be published until the file is in: `REWARD_FILE_MISSING` sends you to `upload_file` (below).
 8. **Offer the next step:** point Smart Objects at the page (`set_object_destination` with the page's `linkId` from `list_forms`), or a QR (`create_qr_code`). If they want the leads somewhere (their CRM, a workflow, an agent, a sheet), that is the webhooks skill: the CRM webhook covers every page; a page webhook is for this page's data.
 
 ## Never overwrite what the customer edited
@@ -30,12 +30,25 @@ Tool names below are the MCP server's (`create_form`, `save_form_draft`…). Ins
 - If it changed, build on the current `draftConfig`, not on your memory of it.
 - If the user tells you they edited it, re-read before touching anything, and say what you kept.
 
-## Photos are stock, and you say so
+## Photos: theirs, or stock placeholders
 
-- Never write an image URL. Ask for photos with `imageSearches` (`{ "stepKey.optionValue": "what to search, in English" }`; `"stepKey.imagen"` for an about page; the product card's id for a product card). Describe what the photo shows, with the business inside ("dog grooming haircut", not "haircut"), 3 or 4 words, visibly different per option. Leave it out for things that cannot be photographed (a budget, "other").
-- Those photos are stock. When the response carries `photos.note`, tell the customer: stock photos, replace them with your own in the editor at `editorUrl`.
-- Never ask for stock where the photo is the claim: completed projects, before and after, the team, the premises, the things the business makes. Leave those cards without image, say so, and give `editorUrl`. Stock only illustrates (a dish, a tour, an object); it never stands in for the business's own work.
-- Testimonials never get photos, and you never write their quotes.
+Two sources, and you ask once which one the customer wants. Own work (completed projects, before and after, the team, the premises, the dishes they cook) is never stock.
+
+**Their own photos: `upload_media`.** A photo attached to the chat never reaches the server, and you cannot forward it: say so, and open the uploader. Call `upload_media` with the page and one slot per photo (`{ stepKey, item }` for a product card or an option, `{ stepKey }` for the about photo or the contact card, `{ target: "logo" | "background" }`), after the draft is saved so the slots exist. What happens next depends on the client:
+
+- In claude.ai and Claude Desktop an uploader appears in the chat: the customer picks each photo, frames it to the slot's ratio or lets the server crop it, and clicks Done. Then call `list_media` with the `batchId`, put each ready `url` in its `configPath` and `save_form_draft`.
+- In Claude Code there is no uploader: the result carries two `curl` lines per photo. Run them with the customer's files, then `list_media` and save.
+- If the photos are already online (their website, a public Drive link), pass `sourceUrl` in the slot: the server fetches them and they come back ready at once.
+
+Every photo is cropped to what the page renders (product cards 4:3, contact card 1:1, options 1:1, background 9:16, the logo kept whole) and saved as webp; tell the customer they can reframe any of them in the editor at `editorUrl`. A `failed` entry says why (too small, not an image, nothing uploaded): ask for another. Never invent an image URL.
+
+**Stock placeholders: `imageSearches`.** `{ "stepKey.optionValue": "what to search, in English" }`; `"stepKey.imagen"` for an about page; the product card's id for a product card. Describe what the photo shows, with the business inside ("dog grooming haircut", not "haircut"), 3 or 4 words, visibly different per option. Leave it out for things that cannot be photographed (a budget, "other"). When the response carries `photos.note`, tell the customer: stock photos, replace them with your own in the editor at `editorUrl`, or send them now with `upload_media`. Never ask for stock where the photo is the claim: leave those cards without image and offer the uploader.
+
+Testimonials never get photos, and you never write their quotes.
+
+## The file of a file reward: `upload_file`
+
+A `digital_asset` reward (the PDF, zip or ebook a lead receives after confirming their email) needs its file. Save the draft with the reward first (`rewards[outcome] = { type: "digital_asset", value: "", requireConfirmation: true }`), then call `upload_file` with the page and the outcome: the same uploader opens (or the `curl` lines come back, or pass `sourceUrl`). When the upload confirms, the reward's value is set to the file by itself: check with `list_media`, then publish. Up to 25 MB; PDF, zip, epub, images, text, audio, video, Office files. Never ask the customer to paste a link to our storage.
 
 ## Endings: the part that goes wrong
 

@@ -18,7 +18,7 @@ Without the plugin, the server alone: `claude mcp add --transport http leadtap h
 ## What is inside
 
 - `.mcp.json`: the LeadTap.me MCP server, `https://app.leadtap.me/api/mcp`.
-- `skills/lead-pages`: building, editing and publishing pages of any mix: a lead capture form, a digital contact card, a business presentation (about us, products & services, testimonials), a menu, a review flow, a qualifier, an RSVP, and mixes like an open house sign-in, a hotel's experiences page or a tour agency that qualifies and hands coupons. The steps that work on a phone, how endings and redirects really behave, scoring and outcomes without gaps, stock photos and where the customer replaces them, review flows that do not gate, and never overwriting what the customer edited in the portal.
+- `skills/lead-pages`: building, editing and publishing pages of any mix: a lead capture form, a digital contact card, a business presentation (about us, products & services, testimonials), a menu, a review flow, a qualifier, an RSVP, and mixes like an open house sign-in, a hotel's experiences page or a tour agency that qualifies and hands coupons. The steps that work on a phone, how endings and redirects really behave, scoring and outcomes without gaps, the customer's own photos through the in-chat uploader (or stock placeholders, and where to replace them), the file of a file reward, review flows that do not gate, and never overwriting what the customer edited in the portal.
 - `skills/smart-routing`: reading where an object sends people, proposing a weekly schedule, checking overlaps, applying it and showing the week back.
 - `skills/webhooks`: sending leads out. The CRM webhook (every lead, every page, to an external CRM, an AI agent workflow, Zapier, Make, n8n or the sales team) and the page webhook (one page's submissions, for a sheet or statistics): which one to offer, the flow (it starts off; the account owner turns it on after an email), what the receiver gets, the signature, retries, and reading the delivery log.
 - `skills/weekly-leads`: the weekly review, numbers first, then people, then one or two actions.
@@ -33,6 +33,7 @@ The skills only use the server's tools, so they work with any account. In claude
 - "An open house sign-in for Saturday: the property, the visitor, whether they have an agent, and my card at the end."
 - "Send every lead in my account to my CRM through this Zapier URL." (The CRM webhook: every page, every person. It starts off; you turn it on in the portal after the email.)
 - "Send the submissions of the fair page to this spreadsheet webhook." (A page webhook: that page's data.)
+- "Here are my three dishes; I have real photos." (An uploader opens in the chat; each photo is cropped to its card.)
 
 ## Update
 
