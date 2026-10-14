@@ -5,3 +5,7 @@ Public image files for scheduled LeadTap.me social posts. This branch holds medi
 ## Instagram batch 1 (@leadtap.me)
 
 Carousel slides (1080 x 1350) scheduled in Metricool: Oct 14 Con Claude, Oct 16 Propiedades, Oct 21 Networking, Oct 23 Dos usos.
+
+## Reels (Instagram + TikTok, @leadtap.me)
+
+Vertical video (1080 x 1920, H.264 10 Mbps) for Metricool: Oct 15 Tarjetas inteligentes (`reels/2026-10-15-tarjetas-inteligentes.mp4`).
